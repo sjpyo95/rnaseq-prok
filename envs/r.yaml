@@ -1,0 +1,15 @@
+name: rnaseq_r
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - r-base=4.3.3
+  - bioconductor-deseq2=1.42.0
+  - bioconductor-sva=3.50.0          # ComBat-seq
+  - bioconductor-enhancedvolcano=1.20.0
+  - r-ggplot2=3.5.0
+  - r-pheatmap=1.0.12
+  - r-dplyr=1.1.4
+  - r-readr=2.1.5
+  - r-tibble=3.2.1
