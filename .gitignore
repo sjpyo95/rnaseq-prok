@@ -1,0 +1,36 @@
+# Data and results (too large for git)
+results/
+logs/
+resources/
+
+# Raw sequencing data
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bam.bai
+*.sam
+
+# Snakemake internals
+.snakemake/
+*.snakemake.log
+
+# Conda
+.conda/
+envs/*.tar.gz
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+*.Rout
+
+# OS
+.DS_Store
+Thumbs.db
