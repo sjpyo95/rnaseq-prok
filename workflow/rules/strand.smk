@@ -63,7 +63,7 @@ rule strand_infer:
     input:
         bam   = "results/strand/{sample}_sub.bam",
         bai   = "results/strand/{sample}_sub.bam.bai",
-        bed12 = config["annotation_bed12"],
+        bed12 = config["annotation_bed12"] if config["annotation_bed12"] else [],
     output:
         strand = "results/strand/{sample}.strand",
     wildcard_constraints:

@@ -1,7 +1,5 @@
 sample_id,condition,replicate,strandedness,fq1,fq2
-WT_rep1,WT,1,unknown,resources/reads/WT_rep1_R1.fastq.gz,resources/reads/WT_rep1_R2.fastq.gz
-WT_rep2,WT,2,unknown,resources/reads/WT_rep2_R1.fastq.gz,resources/reads/WT_rep2_R2.fastq.gz
-WT_rep3,WT,3,unknown,resources/reads/WT_rep3_R1.fastq.gz,resources/reads/WT_rep3_R2.fastq.gz
-KO_rep1,KO,1,unknown,resources/reads/KO_rep1_R1.fastq.gz,resources/reads/KO_rep1_R2.fastq.gz
-KO_rep2,KO,2,unknown,resources/reads/KO_rep2_R1.fastq.gz,resources/reads/KO_rep2_R2.fastq.gz
-KO_rep3,KO,3,unknown,resources/reads/KO_rep3_R1.fastq.gz,resources/reads/KO_rep3_R2.fastq.gz
+awrp-ctrl-1,ctrl,1,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-1_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-1_R2.fastq.gz
+awrp-ctrl-2,ctrl,2,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-2_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-2_R2.fastq.gz
+awrp-sodium-1,sodium,1,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-1_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-1_R2.fastq.gz
+awrp-sodium-2,sodium,2,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-2_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-2_R2.fastq.gz

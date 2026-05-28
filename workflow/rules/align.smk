@@ -43,6 +43,6 @@ rule align:
     shell:
         "hisat2 -x {params.index} -1 {input.fq1} -2 {input.fq2} "
         "-p {threads} {params.extra} {params.strand_flag} "
-        "--summary-file {log} 2>&1 "
+        "--summary-file {log} 2>> {log} "
         "| samtools sort -@ {threads} -o {output.bam} && "
         "samtools index {output.bam}"

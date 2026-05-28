@@ -77,8 +77,8 @@ dev.off()
 # Heatmap (z-score of log10 normalized counts, top 50 DEGs)
 top_genes <- head(sig_df$gene_id, 50)
 if (length(top_genes) > 1) {
-    mat <- log10(norm_counts |> column_to_rownames("gene_id") |>
-                     as.matrix()[top_genes, ] + 1)
+    mat_all <- norm_counts |> column_to_rownames("gene_id") |> as.matrix()
+    mat <- log10(mat_all[top_genes, ] + 1)
     mat_z <- t(scale(t(mat)))
     pdf(snakemake@output[["plot_heatmap"]])
     pheatmap(mat_z,
