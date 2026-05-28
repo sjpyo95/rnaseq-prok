@@ -1,0 +1,66 @@
+samples: config/samples.csv
+
+# Reference
+genome: resources/genome.fa
+annotation_gff: resources/genome.gff
+annotation_gtf: resources/genome.gtf
+annotation_bed12: resources/genome.bed12   # required for RSeQC infer_experiment.py
+
+# HISAT2 index prefix (built from genome.fa)
+hisat2_index: resources/hisat2_index/genome
+
+# Threads
+threads:
+  fastqc: 4
+  fastp: 8
+  hisat2: 8
+  samtools: 8
+  featurecounts: 8
+
+# Step 1 & 3: FastQC
+fastqc:
+  extra: ""   # -t is set automatically from threads.fastqc
+
+# Step 2: fastp (paired-end)
+fastp:
+  trim_poly_g: true
+  poly_g_min_len: 10
+  cut_right: true
+  cut_right_window_size: 4
+  cut_right_mean_quality: 20
+  length_required: 30
+  extra: ""
+
+# Step 4: Strandedness inference (applied to samples with strandedness: unknown)
+strandedness_inference:
+  subsample_reads: 500000       # reads to subsample per sample
+  min_fraction: 0.7             # threshold to call FR or RF; below → unstranded
+  hisat2_extra: "--dta --no-spliced-alignment"
+
+# Step 5: Alignment (HISAT2 + samtools sort)
+hisat2:
+  extra: "--dta --no-spliced-alignment"
+  # --rna-strandness FR/RF is appended automatically from strandedness column
+
+# Step 6: featureCounts
+featurecounts:
+  feature_type: "CDS"
+  attribute: "gene_id"
+  paired: true                  # adds -p flag
+  multi_overlap: false          # adds -O flag when true
+  extra: ""
+  # -s is set per sample from strandedness column (0=unstranded, 1=FR, 2=RF)
+
+# Step 7: Batch correction (optional — set enabled: false to skip)
+batch_correction:
+  enabled: false
+  batch_column: "batch"         # column name in samples.csv
+
+# Step 8: DESeq2
+deg:
+  reference_condition: "WT"
+  padj_cutoff: 0.05
+  lfc_cutoff: 1.0
+  # design formula is set automatically:
+  #   batch_correction.enabled → ~ batch + condition
+  #   otherwise              → ~ condition

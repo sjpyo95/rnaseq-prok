@@ -5,38 +5,40 @@ Snakemake-based RNA-seq analysis pipeline for prokaryotic organisms.
 ## Pipeline overview
 
 ```
-Raw reads (FASTQ)
+Step 1. QC — Raw reads       (FastQC)
     │
-    ▼
-QC (FastQC / MultiQC)
+Step 2. Trimming              (fastp)
     │
-    ▼
-Trimming (fastp)
+Step 3. QC — Trimmed reads   (FastQC + MultiQC)
     │
-    ▼
-Alignment (HISAT2)
+Step 4. Strandedness inference (HISAT2 + RSeQC) ← samples with strandedness: unknown only
     │
-    ▼
-Read counting (featureCounts)
+Step 5. Alignment             (HISAT2 + samtools sort)
     │
-    ▼
-DEG analysis (DESeq2 / edgeR)
+Step 6. Read counting         (featureCounts)
+    │
+Step 7. Batch correction      (ComBat-seq) ← optional
+    │
+Step 8. DEG analysis          (DESeq2)
+         └── Outputs: MA plot, PCA, Heatmap, Volcano plot
 ```
 
 ## Directory structure
 
 ```
 RNA-pipeline/
-├── config/          # Sample sheet and pipeline parameters
+├── config/
+│   ├── samples.csv      # Sample sheet (sample_id, condition, replicate, strandedness, fq1, fq2)
+│   └── params.yaml      # All tool parameters
 ├── workflow/
-│   ├── rules/       # Snakemake rules per step
-│   └── Snakefile    # Main workflow entry point
-├── scripts/         # Helper Python/R scripts
-├── envs/            # Conda environment YAML files
-├── resources/       # Reference genome and annotation (not tracked)
-├── results/         # Pipeline outputs (not tracked)
-├── logs/            # Execution logs (not tracked)
-└── docs/            # Analysis notes and protocol
+│   ├── rules/           # One .smk file per step
+│   └── Snakefile        # Pipeline entry point
+├── scripts/             # Helper Python / R scripts
+├── envs/                # Conda environment YAML files
+├── resources/           # Reference genome + annotation (not tracked by git)
+├── results/             # Pipeline outputs (not tracked by git)
+├── logs/                # Execution logs (not tracked by git)
+└── docs/                # Analysis notes and protocol
 ```
 
 ## Quick start
@@ -46,7 +48,7 @@ RNA-pipeline/
 conda env create -f envs/rna_pipeline.yaml
 conda activate rna_pipeline
 
-# 2. Edit config/samples.csv and config/params.yaml
+# 2. Fill in config/samples.csv and verify config/params.yaml
 
 # 3. Dry run
 snakemake -n --configfile config/params.yaml
