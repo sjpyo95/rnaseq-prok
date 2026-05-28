@@ -1,0 +1,52 @@
+configfile: "config/params.yaml"
+
+import pandas as pd
+
+samples_df = pd.read_csv(config["samples"], index_col="sample_id")
+SAMPLES       = samples_df.index.tolist()
+KNOWN_STRAND  = samples_df[samples_df["strandedness"] != "unknown"].index.tolist()
+UNKNOWN_STRAND = samples_df[samples_df["strandedness"] == "unknown"].index.tolist()
+
+# --- Input validation ---
+_VALID_STRAND = {"FR", "RF", "unstranded", "unknown"}
+_bad_strand = samples_df[~samples_df["strandedness"].isin(_VALID_STRAND)]
+if not _bad_strand.empty:
+    raise ValueError(f"Invalid strandedness in samples.csv: {_bad_strand['strandedness'].tolist()}")
+
+_min_frac = config["strandedness_inference"]["min_fraction"]
+if not isinstance(_min_frac, (int, float)) or not (0.0 <= float(_min_frac) <= 1.0):
+    raise ValueError(f"min_fraction must be a float in [0, 1], got: {_min_frac!r}")
+
+COUNTS_FOR_DEG = (
+    "results/batch/corrected_counts.tsv"
+    if config["batch_correction"]["enabled"]
+    else "results/counts/raw_counts.tsv"
+)
+
+
+def get_fq1(wildcards):
+    return samples_df.loc[wildcards.sample, "fq1"]
+
+
+def get_fq2(wildcards):
+    return samples_df.loc[wildcards.sample, "fq2"]
+
+
+rule all:
+    input:
+        expand("results/qc/raw/{sample}_R1_fastqc.html",     sample=SAMPLES),
+        expand("results/qc/raw/{sample}_R2_fastqc.html",     sample=SAMPLES),
+        expand("results/qc/trimmed/{sample}_R1_fastqc.html", sample=SAMPLES),
+        expand("results/qc/trimmed/{sample}_R2_fastqc.html", sample=SAMPLES),
+        "results/qc/multiqc_report.html",
+        "results/counts/raw_counts.tsv",
+        "results/deg/deseq2_results.tsv",
+
+
+include: "rules/qc.smk"
+include: "rules/trim.smk"
+include: "rules/strand.smk"
+include: "rules/align.smk"
+include: "rules/count.smk"
+include: "rules/batch.smk"
+include: "rules/deg.smk"

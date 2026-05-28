@@ -5,3 +5,4 @@ channels:
   - defaults
 dependencies:
   - subread=2.0.6   # provides featureCounts
+  - pandas>=1.5
