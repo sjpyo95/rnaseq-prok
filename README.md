@@ -25,7 +25,7 @@ starts an interactive setup wizard. It will:
 5. Run a dry-run to confirm everything looks right
 6. Offer to launch the pipeline
 
-You can also run the wizard manually at any time with `/setup`.
+To add a second experiment later, just type `/setup` in Claude Code at any time.
 
 ### Option B — manual setup
 

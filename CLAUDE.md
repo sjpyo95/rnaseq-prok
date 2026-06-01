@@ -14,9 +14,15 @@ find config -mindepth 2 -name "params.yaml" ! -path "*/example/*" 2>/dev/null | 
    Do NOT wait for the user to ask — start the wizard automatically.
 
 **If results exist** (one or more user experiments configured):
-→ Briefly list the available experiments and ask what the user wants to do
-   (run an experiment, add a new one, analyze results, etc.).
-   Only mention `/setup` if they want to add a new experiment.
+→ Greet the user with a short summary like:
+
+   "Configured experiments: **awrp_sodium**, **awrp_formate**
+    What would you like to do?
+    - Run or troubleshoot an existing experiment
+    - Add a new experiment → type `/setup`
+    - Analyze or visualize results"
+
+   Always show `/setup` as an explicit option so the user knows it exists.
 
 ---
 
