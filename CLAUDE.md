@@ -35,30 +35,47 @@ Paired-end sequencing data.
 
 Plots: MA plot, PCA (raw vs normalized), heatmap (z-score of log10 normalized counts), Volcano plot
 
+## Multi-dataset layout
+
+Each experiment gets its own config subdirectory:
+
+```
+config/
+  {experiment}/
+    params.yaml    # contains outdir: results/{experiment}
+    samples.csv
+```
+
+`outdir` in `params.yaml` controls where all outputs go (`results/{experiment}/`).  
+To add a new experiment: copy an existing config subdirectory, update paths and `outdir`.
+
 ## Directory layout
 
 | Path | Purpose |
 |------|---------|
-| `config/samples.csv` | Sample metadata including strandedness |
-| `config/params.yaml` | All tool parameters (single source of truth) |
-| `workflow/Snakefile` | Pipeline entry point |
+| `config/{exp}/samples.csv` | Sample metadata including strandedness |
+| `config/{exp}/params.yaml` | All tool parameters (single source of truth) |
+| `workflow/Snakefile` | Pipeline entry point (`OUTDIR = config["outdir"]`) |
 | `workflow/rules/` | One `.smk` per step: `qc.smk`, `trim.smk`, `strand.smk`, `align.smk`, `count.smk`, `batch.smk`, `deg.smk` |
 | `scripts/` | Helper Python / R scripts called by rules |
 | `envs/` | Conda environment YAML files |
 | `resources/` | Reference genome + GFF/GTF/BED12 (not in git) |
-| `results/` | All pipeline outputs (not in git) |
+| `results/{exp}/` | All pipeline outputs (not in git) |
 | `logs/` | Per-rule logs (not in git) |
 
 ## Key conventions
 
 - Log files: `logs/{rule}/{sample}.log`
-- Outputs: `results/{step}/{sample}.*`
+- Outputs: `{OUTDIR}/{step}/{sample}.*` where `OUTDIR = config["outdir"]`
 - Conda envs declared per-rule: `conda: "../../envs/<tool>.yaml"`
 - `params.yaml` is the single source of truth for all tool flags
 
 ## Running
 
 ```bash
-snakemake -n --configfile config/params.yaml          # dry run
-snakemake --cores 8 --configfile config/params.yaml --use-conda
+# Dry run
+snakemake -n --configfile config/awrp_sodium/params.yaml
+
+# Run
+snakemake --cores 8 --configfile config/awrp_sodium/params.yaml --use-conda
 ```

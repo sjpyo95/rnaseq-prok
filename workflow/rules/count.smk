@@ -2,19 +2,19 @@ STRAND_TO_FC = {"unstranded": "0", "FR": "1", "RF": "2"}
 
 
 def get_fc_strand(wildcards):
-    strand = open(f"results/strand/{wildcards.sample}.strand").read().strip()
+    strand = open(OUTDIR + f"/strand/{wildcards.sample}.strand").read().strip()
     return STRAND_TO_FC.get(strand, "0")
 
 
 rule featurecounts:
     input:
-        bam    = "results/align/{sample}.bam",
-        bai    = "results/align/{sample}.bam.bai",
-        strand = "results/strand/{sample}.strand",
+        bam    = OUTDIR + "/align/{sample}.bam",
+        bai    = OUTDIR + "/align/{sample}.bam.bai",
+        strand = OUTDIR + "/strand/{sample}.strand",
         gtf    = config["annotation_gtf"],
     output:
-        counts  = "results/counts/{sample}.counts",
-        summary = "results/counts/{sample}.counts.summary",
+        counts  = OUTDIR + "/counts/{sample}.counts",
+        summary = OUTDIR + "/counts/{sample}.counts.summary",
     params:
         feature   = config["featurecounts"]["feature_type"],
         attribute = config["featurecounts"]["attribute"],
@@ -41,9 +41,9 @@ rule featurecounts:
 
 rule merge_counts:
     input:
-        expand("results/counts/{sample}.counts", sample=SAMPLES),
+        expand(OUTDIR + "/counts/{sample}.counts", sample=SAMPLES),
     output:
-        "results/counts/raw_counts.tsv",
+        OUTDIR + "/counts/raw_counts.tsv",
     conda: "../../envs/count.yaml"
     log: "logs/count/merge.log"
     shell:

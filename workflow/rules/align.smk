@@ -2,7 +2,7 @@ _STRAND_TO_HISAT2 = {"FR": "FR", "RF": "RF", "unstranded": ""}
 
 
 def get_hisat2_strand_flag(wildcards):
-    strand = open(f"results/strand/{wildcards.sample}.strand").read().strip()
+    strand = open(OUTDIR + f"/strand/{wildcards.sample}.strand").read().strip()
     mapped = _STRAND_TO_HISAT2[strand]
     return f"--rna-strandness {mapped}" if mapped else ""
 
@@ -26,17 +26,17 @@ rule hisat2_build:
 
 rule align:
     input:
-        fq1    = "results/trim/{sample}_R1.fastq.gz",
-        fq2    = "results/trim/{sample}_R2.fastq.gz",
+        fq1    = OUTDIR + "/trim/{sample}_R1.fastq.gz",
+        fq2    = OUTDIR + "/trim/{sample}_R2.fastq.gz",
         index  = multiext(config["hisat2_index"], ".1.ht2", ".2.ht2"),
-        strand = "results/strand/{sample}.strand",
+        strand = OUTDIR + "/strand/{sample}.strand",
     output:
-        bam = "results/align/{sample}.bam",
-        bai = "results/align/{sample}.bam.bai",
+        bam = OUTDIR + "/align/{sample}.bam",
+        bai = OUTDIR + "/align/{sample}.bam.bai",
     params:
-        index        = config["hisat2_index"],
-        extra        = config["hisat2"]["extra"],
-        strand_flag  = get_hisat2_strand_flag,
+        index       = config["hisat2_index"],
+        extra       = config["hisat2"]["extra"],
+        strand_flag = get_hisat2_strand_flag,
     threads: config["threads"]["hisat2"]
     conda: "../../envs/align.yaml"
     log: "logs/align/{sample}.log"

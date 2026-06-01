@@ -4,7 +4,7 @@
 rule strand_from_csv:
     """Write strandedness directly from samples.csv for known samples."""
     output:
-        strand = "results/strand/{sample}.strand",
+        strand = OUTDIR + "/strand/{sample}.strand",
     wildcard_constraints:
         sample = "|".join(KNOWN_STRAND) if KNOWN_STRAND else "NOMATCH__",
     params:
@@ -17,11 +17,11 @@ rule strand_from_csv:
 rule strand_subsample:
     """Subsample trimmed reads for fast alignment."""
     input:
-        fq1 = "results/trim/{sample}_R1.fastq.gz",
-        fq2 = "results/trim/{sample}_R2.fastq.gz",
+        fq1 = OUTDIR + "/trim/{sample}_R1.fastq.gz",
+        fq2 = OUTDIR + "/trim/{sample}_R2.fastq.gz",
     output:
-        fq1 = temp("results/strand/{sample}_sub_R1.fastq.gz"),
-        fq2 = temp("results/strand/{sample}_sub_R2.fastq.gz"),
+        fq1 = temp(OUTDIR + "/strand/{sample}_sub_R1.fastq.gz"),
+        fq2 = temp(OUTDIR + "/strand/{sample}_sub_R2.fastq.gz"),
     wildcard_constraints:
         sample = "|".join(UNKNOWN_STRAND) if UNKNOWN_STRAND else "NOMATCH__",
     params:
@@ -37,12 +37,12 @@ rule strand_subsample:
 rule strand_align:
     """Align subsampled reads and index BAM for RSeQC."""
     input:
-        fq1   = "results/strand/{sample}_sub_R1.fastq.gz",
-        fq2   = "results/strand/{sample}_sub_R2.fastq.gz",
+        fq1   = OUTDIR + "/strand/{sample}_sub_R1.fastq.gz",
+        fq2   = OUTDIR + "/strand/{sample}_sub_R2.fastq.gz",
         index = multiext(config["hisat2_index"], ".1.ht2", ".2.ht2"),
     output:
-        bam = temp("results/strand/{sample}_sub.bam"),
-        bai = temp("results/strand/{sample}_sub.bam.bai"),
+        bam = temp(OUTDIR + "/strand/{sample}_sub.bam"),
+        bai = temp(OUTDIR + "/strand/{sample}_sub.bam.bai"),
     wildcard_constraints:
         sample = "|".join(UNKNOWN_STRAND) if UNKNOWN_STRAND else "NOMATCH__",
     params:
@@ -61,11 +61,11 @@ rule strand_align:
 rule strand_infer:
     """Run RSeQC infer_experiment.py and call strand from fraction thresholds."""
     input:
-        bam   = "results/strand/{sample}_sub.bam",
-        bai   = "results/strand/{sample}_sub.bam.bai",
+        bam   = OUTDIR + "/strand/{sample}_sub.bam",
+        bai   = OUTDIR + "/strand/{sample}_sub.bam.bai",
         bed12 = config["annotation_bed12"] if config["annotation_bed12"] else [],
     output:
-        strand = "results/strand/{sample}.strand",
+        strand = OUTDIR + "/strand/{sample}.strand",
     wildcard_constraints:
         sample = "|".join(UNKNOWN_STRAND) if UNKNOWN_STRAND else "NOMATCH__",
     params:

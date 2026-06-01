@@ -3,10 +3,10 @@ rule trim:
         fq1 = get_fq1,
         fq2 = get_fq2,
     output:
-        fq1  = "results/trim/{sample}_R1.fastq.gz",
-        fq2  = "results/trim/{sample}_R2.fastq.gz",
-        html = "results/trim/{sample}_fastp.html",
-        json = "results/trim/{sample}_fastp.json",
+        fq1  = OUTDIR + "/trim/{sample}_R1.fastq.gz",
+        fq2  = OUTDIR + "/trim/{sample}_R2.fastq.gz",
+        html = OUTDIR + "/trim/{sample}_fastp.html",
+        json = OUTDIR + "/trim/{sample}_fastp.json",
     params:
         poly_g_min_len         = config["fastp"]["poly_g_min_len"],
         cut_right_window_size  = config["fastp"]["cut_right_window_size"],

@@ -44,16 +44,39 @@ RNA-pipeline/
 ## Quick start
 
 ```bash
-# 1. Edit config/samples.csv and config/params.yaml for your dataset
+# 1. Create a config directory for your experiment
+cp -r config/awrp_sodium config/my_experiment
 
-# 2. Dry run
-snakemake -n --configfile config/params.yaml
+# 2. Edit config/my_experiment/samples.csv and params.yaml
+#    (set outdir: results/my_experiment and update all paths)
 
-# 3. Run (conda environments are created automatically per rule)
-snakemake --cores 8 --configfile config/params.yaml --use-conda
+# 3. Dry run
+snakemake -n --configfile config/my_experiment/params.yaml
+
+# 4. Run (conda environments are created automatically per rule)
+snakemake --cores 8 --configfile config/my_experiment/params.yaml --use-conda
 ```
 
-## Sample sheet format (`config/samples.csv`)
+## Multi-dataset support
+
+Each experiment has its own config subdirectory with `params.yaml` + `samples.csv`.
+The `outdir` key in `params.yaml` controls where results are written, so experiments
+never overwrite each other:
+
+```
+config/
+  awrp_sodium/       ← experiment 1
+    params.yaml      (outdir: results/awrp_sodium)
+    samples.csv
+  awrp_formate/      ← experiment 2
+    params.yaml      (outdir: results/awrp_formate)
+    samples.csv
+results/
+  awrp_sodium/       ← outputs isolated per experiment
+  awrp_formate/
+```
+
+## Sample sheet format (`config/{experiment}/samples.csv`)
 
 | Column | Values | Description |
 |--------|--------|-------------|

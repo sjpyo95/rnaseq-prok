@@ -1,4 +1,5 @@
-samples: config/samples.csv
+samples: config/awrp_sodium/samples.csv
+outdir:  results/awrp_sodium
 
 # Reference (GCA assembly)
 genome: /mnt/HDWR11A/c_awrp/reference/genome/GCA/awrp_genome_seq_GCA.fa
