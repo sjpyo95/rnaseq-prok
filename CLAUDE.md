@@ -4,16 +4,16 @@
 
 At the very start of each conversation, silently run:
 ```bash
-find config -name "params.yaml" -mindepth 2 2>/dev/null | head -5
+find config -mindepth 2 -name "params.yaml" ! -path "*/example/*" 2>/dev/null | head -5
 ```
 
-**If no results** (fresh clone, no experiments configured yet):
+**If no results** (fresh clone — only `config/example/` exists, no user experiment yet):
 → Proactively greet the user and immediately begin the setup wizard.
    Tell them: "I see this pipeline hasn't been configured yet. Let me guide you through setting it up."
    Then follow the steps in `.claude/commands/setup.md`.
    Do NOT wait for the user to ask — start the wizard automatically.
 
-**If results exist** (experiments already configured):
+**If results exist** (one or more user experiments configured):
 → Briefly list the available experiments and ask what the user wants to do
    (run an experiment, add a new one, analyze results, etc.).
    Only mention `/setup` if they want to add a new experiment.

@@ -1,5 +1,0 @@
-sample_id,condition,replicate,strandedness,fq1,fq2
-awrp-ctrl-1,ctrl,1,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-1_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-1_R2.fastq.gz
-awrp-ctrl-2,ctrl,2,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-2_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-ctrl-2_R2.fastq.gz
-awrp-sodium-1,sodium,1,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-1_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-1_R2.fastq.gz
-awrp-sodium-2,sodium,2,RF,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-2_R1.fastq.gz,/mnt/HDWR11A/c_awrp/sodium/awrp-sodium-2_R2.fastq.gz

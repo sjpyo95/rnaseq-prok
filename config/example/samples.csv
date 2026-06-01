@@ -1,0 +1,5 @@
+sample_id,condition,replicate,strandedness,fq1,fq2
+ctrl-rep1,ctrl,1,RF,/path/to/raw/ctrl-rep1_R1.fastq.gz,/path/to/raw/ctrl-rep1_R2.fastq.gz
+ctrl-rep2,ctrl,2,RF,/path/to/raw/ctrl-rep2_R1.fastq.gz,/path/to/raw/ctrl-rep2_R2.fastq.gz
+treat-rep1,treatment,1,RF,/path/to/raw/treat-rep1_R1.fastq.gz,/path/to/raw/treat-rep1_R2.fastq.gz
+treat-rep2,treatment,2,RF,/path/to/raw/treat-rep2_R1.fastq.gz,/path/to/raw/treat-rep2_R2.fastq.gz
