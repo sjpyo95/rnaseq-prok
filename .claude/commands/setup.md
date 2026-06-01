@@ -1,10 +1,18 @@
 Guide the user through first-time setup of this RNA-seq pipeline.
 Run this whenever: no experiment config exists yet, or the user wants to add a new experiment.
 
-Follow these steps in order. Be friendly and concise. Use AskUserQuestion for user decisions.
-Run Bash commands to validate paths and generate files. Show progress clearly.
+**First: run the interactive setup script.**
+```bash
+python3 scripts/setup_wizard.py
+```
+This handles steps 1–7 automatically (experiment name, FASTQ scan, conditions, strandedness, reference files, config generation, dry-run).
+
+Monitor the output. If the script completes successfully, skip to the "Ready" section below.
+If the script hits an error, help the user fix it and re-run, or fall back to the manual steps below.
 
 ---
+
+## Manual fallback steps (if script fails)
 
 ## Step 1: Welcome
 

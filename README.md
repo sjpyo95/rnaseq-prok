@@ -27,22 +27,26 @@ starts an interactive setup wizard. It will:
 
 To add a second experiment later, just type `/setup` in Claude Code at any time.
 
-### Option B — manual setup
+### Option B — interactive script (no Claude Code required)
 
 ```bash
 git clone https://github.com/sjpyo95/rnaseq-prok.git
 cd rnaseq-prok
+python3 scripts/setup_wizard.py
+```
 
-# 1. Copy the template config
+The script guides you through the same steps as the Claude Code wizard
+and generates `config/{experiment}/params.yaml` and `samples.csv` automatically.
+
+### Option C — fully manual
+
+```bash
+# Copy the template and edit directly
 cp -r config/example config/my_experiment
+nano config/my_experiment/params.yaml   # fill in paths
+nano config/my_experiment/samples.csv   # fill in samples
 
-# 2. Edit samples.csv — fill in sample metadata and FASTQ paths
-#    Edit params.yaml — fill in genome/GTF/index paths, set outdir
-
-# 3. Dry run
 snakemake -n --configfile config/my_experiment/params.yaml
-
-# 4. Run (conda environments created automatically per rule)
 snakemake --cores 8 --configfile config/my_experiment/params.yaml --use-conda
 ```
 
