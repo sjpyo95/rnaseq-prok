@@ -3,6 +3,9 @@ results/
 logs/
 resources/
 
+# Claude Code local settings
+.claude/
+
 # Raw sequencing data
 *.fastq
 *.fastq.gz
