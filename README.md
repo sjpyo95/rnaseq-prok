@@ -5,29 +5,7 @@ Steps 1–8: QC → Trimming → Alignment → Read counting → DESeq2.
 
 ## Getting started
 
-### Option A — with Claude Code (recommended)
-
-Clone the repo and open it in [Claude Code](https://claude.ai/code):
-
-```bash
-git clone https://github.com/sjpyo95/rnaseq-prok.git
-cd rnaseq-prok
-claude
-```
-
-Claude Code detects that no experiment has been configured yet and automatically
-starts an interactive setup wizard. It will:
-
-1. Scan your raw FASTQ directory and list discovered samples
-2. Ask you to assign conditions and replicates
-3. Validate your reference genome, GTF, and HISAT2 index paths
-4. Generate `config/{experiment}/params.yaml` and `samples.csv`
-5. Run a dry-run to confirm everything looks right
-6. Offer to launch the pipeline
-
-To add a second experiment later, just type `/setup` in Claude Code at any time.
-
-### Option B — interactive script (no Claude Code required)
+### Option A — interactive setup script
 
 ```bash
 git clone https://github.com/sjpyo95/rnaseq-prok.git
@@ -35,10 +13,10 @@ cd rnaseq-prok
 python3 scripts/setup_wizard.py
 ```
 
-The script guides you through the same steps as the Claude Code wizard
-and generates `config/{experiment}/params.yaml` and `samples.csv` automatically.
+The script walks you through each step and generates
+`config/{experiment}/params.yaml` and `samples.csv` automatically.
 
-### Option C — fully manual
+### Option B — fully manual
 
 ```bash
 # Copy the template and edit directly
@@ -130,4 +108,4 @@ All files are written under `results/{experiment}/`:
 
 - Snakemake ≥ 7.0
 - Conda / Mamba (per-rule environments via `--use-conda`)
-- [Claude Code](https://claude.ai/code) *(optional — for the setup wizard)*
+- Python ≥ 3.9 (for `setup_wizard.py`; stdlib only, no extra packages)
