@@ -1,5 +1,25 @@
 # CLAUDE.md
 
+## Onboarding (run at the start of every conversation)
+
+At the very start of each conversation, silently run:
+```bash
+find config -name "params.yaml" -mindepth 2 2>/dev/null | head -5
+```
+
+**If no results** (fresh clone, no experiments configured yet):
+→ Proactively greet the user and immediately begin the setup wizard.
+   Tell them: "I see this pipeline hasn't been configured yet. Let me guide you through setting it up."
+   Then follow the steps in `.claude/commands/setup.md`.
+   Do NOT wait for the user to ask — start the wizard automatically.
+
+**If results exist** (experiments already configured):
+→ Briefly list the available experiments and ask what the user wants to do
+   (run an experiment, add a new one, analyze results, etc.).
+   Only mention `/setup` if they want to add a new experiment.
+
+---
+
 ## Project
 
 RNA-seq pipeline for prokaryotic genome analysis, built with Snakemake.
@@ -74,8 +94,14 @@ To add a new experiment: copy an existing config subdirectory, update paths and 
 
 ```bash
 # Dry run
-snakemake -n --configfile config/awrp_sodium/params.yaml
+snakemake -n --configfile config/<experiment>/params.yaml
 
 # Run
-snakemake --cores 8 --configfile config/awrp_sodium/params.yaml --use-conda
+snakemake --cores 8 --configfile config/<experiment>/params.yaml --use-conda
 ```
+
+## Available slash commands
+
+| Command | Description |
+|---------|-------------|
+| `/setup` | Interactive setup wizard — creates config for a new experiment |

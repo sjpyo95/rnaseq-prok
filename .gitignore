@@ -3,8 +3,9 @@ results/
 logs/
 resources/
 
-# Claude Code local settings
-.claude/
+# Claude Code (per-user settings; commands/ is tracked and shared)
+.claude/settings.json
+.claude/settings.local.json
 
 # Raw sequencing data
 *.fastq
@@ -37,3 +38,6 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+._.DS_Store
+config/._.DS_Store
+**/._.DS_Store
