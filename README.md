@@ -58,7 +58,7 @@ config/
   example/              ← template (copy this to start)
     params.yaml         (fill in paths, set outdir: results/my_experiment)
     samples.csv         (one row per sample)
-  my_experiment/        ← your config (gitignored, stays local)
+  my_experiment/        ← your config
     params.yaml
     samples.csv
 results/
